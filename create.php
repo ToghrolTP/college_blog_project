@@ -1,20 +1,15 @@
 <?php
-// Include database connection
 include 'config.php';
 
-// Initialize variables
 $title = $content = $author = "";
 $errors = array();
 
-// Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    // Get form data
     $title = trim($_POST['title']);
     $content = trim($_POST['content']);
     $author = trim($_POST['author']);
     
-    // Validate form data
     if (empty($title)) {
         $errors[] = "Title is required";
     }
@@ -27,16 +22,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = "Author name is required";
     }
     
-    // If no errors, insert into database
     if (empty($errors)) {
         $sql = "INSERT INTO posts (title, content, author) VALUES (?, ?, ?)";
         
-        // Prepare statement (prevents SQL injection)
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sss", $title, $content, $author);
         
         if ($stmt->execute()) {
-            // Redirect to homepage after successful creation
             header("Location: index.php");
             exit();
         } else {
@@ -57,11 +49,9 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create New Post - Simple Blog</title>
     
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="index.php">📝 Simple Blog</a>
@@ -81,7 +71,6 @@ $conn->close();
         </div>
     </nav>
 
-    <!-- Main Content -->
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -98,12 +87,10 @@ $conn->close();
                     </div>
                 <?php endif; ?>
                 
-                <!-- Create Post Form -->
                 <div class="card">
                     <div class="card-body">
                         <form method="POST" action="create.php">
                             
-                            <!-- Title Input -->
                             <div class="mb-3">
                                 <label for="title" class="form-label">Post Title</label>
                                 <input type="text" 
@@ -114,7 +101,6 @@ $conn->close();
                                        placeholder="Enter post title">
                             </div>
                             
-                            <!-- Content Textarea -->
                             <div class="mb-3">
                                 <label for="content" class="form-label">Post Content</label>
                                 <textarea class="form-control" 
@@ -124,7 +110,6 @@ $conn->close();
                                           placeholder="Write your post content here..."><?php echo htmlspecialchars($content); ?></textarea>
                             </div>
                             
-                            <!-- Author Input -->
                             <div class="mb-3">
                                 <label for="author" class="form-label">Author Name</label>
                                 <input type="text" 
@@ -135,7 +120,6 @@ $conn->close();
                                        placeholder="Enter your name">
                             </div>
                             
-                            <!-- Submit Buttons -->
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                                 <a href="index.php" class="btn btn-secondary">Cancel</a>
                                 <button type="submit" class="btn btn-primary">Publish Post</button>
@@ -148,7 +132,6 @@ $conn->close();
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
