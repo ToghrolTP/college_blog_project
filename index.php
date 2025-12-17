@@ -1,6 +1,5 @@
 <?php
 include 'lang.php';
-
 include 'config.php';
 
 $posts_per_page = 5;
@@ -12,7 +11,7 @@ $count_result = $conn->query($count_sql);
 $total_posts = $count_result->fetch_assoc()['total'];
 $total_pages = ceil($total_posts / $posts_per_page);
 
-$sql = "SELECT posts.*, categories.name as category_name 
+$sql = "SELECT posts.*, categories.name as category_key 
         FROM posts 
         LEFT JOIN categories ON posts.category_id = categories.id 
         ORDER BY posts.created_at DESC 
@@ -30,14 +29,12 @@ $result = $stmt->get_result();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo t('site_title'); ?></title>
     
-    <!-- Bootstrap CSS - RTL or LTR based on language -->
     <?php if (get_direction() == 'rtl'): ?>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
     <?php else: ?>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <?php endif; ?>
     
-    <!-- Custom RTL fixes -->
     <?php if (get_direction() == 'rtl'): ?>
     <style>
         body {
@@ -51,7 +48,6 @@ $result = $stmt->get_result();
     <?php endif; ?>
 </head>
 <body>
-    <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="index.php">📝 <?php echo t('site_title'); ?></a>
@@ -106,7 +102,7 @@ $result = $stmt->get_result();
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start mb-2">
                             <h2 class="card-title mb-0"><?php echo htmlspecialchars($post['title']); ?></h2>
-                            <span class="badge bg-primary"><?php echo htmlspecialchars($post['category_name'] ?? 'Uncategorized'); ?></span>
+                            <span class="badge bg-primary"><?php echo get_category_name($post['category_key']); ?></span>
                         </div>
                         <p class="card-text mt-3"><?php echo nl2br(htmlspecialchars($post['content'])); ?></p>
                         <p class="text-muted">

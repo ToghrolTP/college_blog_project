@@ -1,6 +1,5 @@
 <?php
 include 'lang.php';
-
 include 'config.php';
 
 $categories_sql = "SELECT * FROM categories ORDER BY name ASC";
@@ -137,7 +136,7 @@ $conn->close();
                                     ?>
                                         <option value="<?php echo $category['id']; ?>"
                                                 <?php echo ($category_id == $category['id']) ? 'selected' : ''; ?>>
-                                            <?php echo htmlspecialchars($category['name']); ?>
+                                            <?php echo get_category_name($category['name']); ?>
                                         </option>
                                     <?php endwhile; ?>
                                 </select>

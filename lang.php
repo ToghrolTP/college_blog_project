@@ -1,15 +1,12 @@
 <?php
-// Store language preferences
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Check if language is set in URL
 if (isset($_GET['lang'])) {
     $_SESSION['lang'] = $_GET['lang'];
 }
 
-// Default to en
 if (!isset($_SESSION['lang'])) {
     $_SESSION['lang'] = 'en';
 }
@@ -49,6 +46,12 @@ $translations = array(
         'enter_title' => 'Enter post title',
         'enter_content' => 'Write your post content here...',
         'enter_author' => 'Enter your name',
+        'cat_technology' => 'Technology',
+        'cat_lifestyle' => 'Lifestyle',
+        'cat_travel' => 'Travel',
+        'cat_food' => 'Food',
+        'cat_education' => 'Education',
+        'cat_other' => 'Other',
     ),
     'fa' => array(
         'site_title' => 'وبلاگ ساده',
@@ -82,12 +85,25 @@ $translations = array(
         'enter_title' => 'عنوان پست را وارد کنید',
         'enter_content' => 'محتوای پست خود را اینجا بنویسید...',
         'enter_author' => 'نام خود را وارد کنید',
+        'cat_technology' => 'فناوری',
+        'cat_lifestyle' => 'سبک زندگی',
+        'cat_travel' => 'سفر',
+        'cat_food' => 'غذا',
+        'cat_education' => 'آموزش',
+        'cat_other' => 'سایر',
     )
 );
 
 function t($key) {
     global $translations, $current_lang;
     return $translations[$current_lang][$key] ?? $key;
+}
+
+function get_category_name($category_key) {
+    if (empty($category_key)) {
+        return t('cat_other');
+    }
+    return t('cat_' . $category_key);
 }
 
 function get_direction() {

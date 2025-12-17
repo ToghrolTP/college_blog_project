@@ -1,6 +1,5 @@
 <?php
 include 'lang.php';
-
 include 'config.php';
 
 $categories_sql = "SELECT * FROM categories ORDER BY name ASC";
@@ -85,7 +84,6 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo t('edit_post'); ?> - <?php echo t('site_title'); ?></title>
     
-    <!-- Bootstrap CSS -->
     <?php if (get_direction() == 'rtl'): ?>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
     <?php else: ?>
@@ -165,7 +163,7 @@ $conn->close();
                                     ?>
                                         <option value="<?php echo $category['id']; ?>"
                                                 <?php echo ($category_id == $category['id']) ? 'selected' : ''; ?>>
-                                            <?php echo htmlspecialchars($category['name']); ?>
+                                            <?php echo get_category_name($category['name']); ?>
                                         </option>
                                     <?php endwhile; ?>
                                 </select>
