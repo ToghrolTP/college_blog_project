@@ -1,7 +1,10 @@
 <?php
 include 'config.php';
 
-$title = $content = $author = "";
+$categories_sql = "SELECT * FROM categories ORDER BY name ASC";
+$categories_result = $conn->query($categories_sql);
+
+$title = $content = $author = $category_id = "";
 $errors = array();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -9,6 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = trim($_POST['title']);
     $content = trim($_POST['content']);
     $author = trim($_POST['author']);
+    $category_id = $_POST['category_id'];
     
     if (empty($title)) {
         $errors[] = "Title is required";
@@ -22,14 +26,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = "Author name is required";
     }
     
+    if (empty($category_id)) {
+        $errors[] = "Please select a category";
+    }
+    
     if (empty($errors)) {
-        $sql = "INSERT INTO posts (title, content, author) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO posts (title, content, author, category_id) VALUES (?, ?, ?, ?)";
         
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sss", $title, $content, $author);
+        $stmt->bind_param("sssi", $title, $content, $author, $category_id);
         
         if ($stmt->execute()) {
-            header("Location: index.php");
+            header("Location: index.php?success=created");
             exit();
         } else {
             $errors[] = "Error creating post: " . $conn->error;
@@ -76,7 +84,6 @@ $conn->close();
             <div class="col-md-8">
                 <h1 class="mb-4">Create New Post</h1>
                 
-                <!-- Display Errors -->
                 <?php if (!empty($errors)): ?>
                     <div class="alert alert-danger">
                         <ul class="mb-0">
@@ -99,6 +106,22 @@ $conn->close();
                                        name="title" 
                                        value="<?php echo htmlspecialchars($title); ?>"
                                        placeholder="Enter post title">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="category_id" class="form-label">Category</label>
+                                <select class="form-select" id="category_id" name="category_id">
+                                    <option value="">Select a category</option>
+                                    <?php
+                                    $categories_result->data_seek(0);
+                                    while($category = $categories_result->fetch_assoc()): 
+                                    ?>
+                                        <option value="<?php echo $category['id']; ?>"
+                                                <?php echo ($category_id == $category['id']) ? 'selected' : ''; ?>>
+                                            <?php echo htmlspecialchars($category['name']); ?>
+                                        </option>
+                                    <?php endwhile; ?>
+                                </select>
                             </div>
                             
                             <div class="mb-3">

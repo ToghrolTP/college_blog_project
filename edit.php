@@ -1,7 +1,10 @@
 <?php
 include 'config.php';
 
-$id = $title = $content = $author = "";
+$categories_sql = "SELECT * FROM categories ORDER BY name ASC";
+$categories_result = $conn->query($categories_sql);
+
+$id = $title = $content = $author = $category_id = "";
 $errors = array();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -10,6 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = trim($_POST['title']);
     $content = trim($_POST['content']);
     $author = trim($_POST['author']);
+    $category_id = $_POST['category_id'];
     
     if (empty($title)) {
         $errors[] = "Title is required";
@@ -23,14 +27,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = "Author name is required";
     }
     
+    if (empty($category_id)) {
+        $errors[] = "Please select a category";
+    }
+    
     if (empty($errors)) {
-        $sql = "UPDATE posts SET title = ?, content = ?, author = ? WHERE id = ?";
+        $sql = "UPDATE posts SET title = ?, content = ?, author = ?, category_id = ? WHERE id = ?";
         
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssi", $title, $content, $author, $id);
+        $stmt->bind_param("sssii", $title, $content, $author, $category_id, $id);
         
         if ($stmt->execute()) {
-            header("Location: index.php");
+            header("Location: index.php?success=updated");
             exit();
         } else {
             $errors[] = "Error updating post: " . $conn->error;
@@ -39,11 +47,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->close();
     }
     
+    
 } elseif (isset($_GET['id'])) {
     
     $id = $_GET['id'];
     
-    // Fetch existing post data
     $sql = "SELECT * FROM posts WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id);
@@ -55,6 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $title = $post['title'];
         $content = $post['content'];
         $author = $post['author'];
+        $category_id = $post['category_id'];
     } else {
         die("Post not found!");
     }
@@ -125,6 +134,22 @@ $conn->close();
                                        id="title" 
                                        name="title" 
                                        value="<?php echo htmlspecialchars($title); ?>">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="category_id" class="form-label">Category</label>
+                                <select class="form-select" id="category_id" name="category_id">
+                                    <option value="">Select a category</option>
+                                    <?php
+                                    $categories_result->data_seek(0);
+                                    while($category = $categories_result->fetch_assoc()): 
+                                    ?>
+                                        <option value="<?php echo $category['id']; ?>"
+                                                <?php echo ($category_id == $category['id']) ? 'selected' : ''; ?>>
+                                            <?php echo htmlspecialchars($category['name']); ?>
+                                        </option>
+                                    <?php endwhile; ?>
+                                </select>
                             </div>
                             
                             <div class="mb-3">

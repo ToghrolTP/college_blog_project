@@ -10,7 +10,7 @@ if (isset($_GET['id'])) {
     $stmt->bind_param("i", $id);
     
     if ($stmt->execute()) {
-        header("Location: index.php");
+        header("Location: index.php?success=deleted");
         exit();
     } else {
         die("Error deleting post: " . $conn->error);
