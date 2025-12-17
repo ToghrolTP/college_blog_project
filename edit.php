@@ -4,32 +4,6 @@ include 'config.php';
 $id = $title = $content = $author = "";
 $errors = array();
 
-// Get post ID from URL
-if (isset($_GET['id'])) {
-    $id = $_GET['id'];
-    
-    // Fetch
-    $sql = "SELECT * FROM posts WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    
-    if ($result->num_rows == 1) {
-        $post = $result->fetch_assoc();
-        $title = $post['title'];
-        $content = $post['content'];
-        $author = $post['author'];
-    } else {
-        die("Post not found!");
-    }
-    
-    $stmt->close();
-} else {
-    die("No post ID provided!");
-}
-
-// Check if submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $id = $_POST['id'];
@@ -64,6 +38,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         $stmt->close();
     }
+    
+} elseif (isset($_GET['id'])) {
+    
+    $id = $_GET['id'];
+    
+    // Fetch existing post data
+    $sql = "SELECT * FROM posts WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows == 1) {
+        $post = $result->fetch_assoc();
+        $title = $post['title'];
+        $content = $post['content'];
+        $author = $post['author'];
+    } else {
+        die("Post not found!");
+    }
+    
+    $stmt->close();
+    
+} else {
+    die("No post ID provided!");
 }
 
 $conn->close();
