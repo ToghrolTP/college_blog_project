@@ -1,4 +1,6 @@
 <?php
+include 'lang.php';
+
 include 'config.php';
 
 $categories_sql = "SELECT * FROM categories ORDER BY name ASC";
@@ -16,19 +18,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $category_id = $_POST['category_id'];
     
     if (empty($title)) {
-        $errors[] = "Title is required";
+        $errors[] = t('title_required');
     }
     
     if (empty($content)) {
-        $errors[] = "Content is required";
+        $errors[] = t('content_required');
     }
     
     if (empty($author)) {
-        $errors[] = "Author name is required";
+        $errors[] = t('author_required');
     }
     
     if (empty($category_id)) {
-        $errors[] = "Please select a category";
+        $errors[] = t('category_required');
     }
     
     if (empty($errors)) {
@@ -38,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bind_param("sssii", $title, $content, $author, $category_id, $id);
         
         if ($stmt->execute()) {
-            header("Location: index.php?success=updated");
+            header("Location: index.php?success=updated&lang=" . $current_lang);
             exit();
         } else {
             $errors[] = "Error updating post: " . $conn->error;
@@ -46,7 +48,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         $stmt->close();
     }
-    
     
 } elseif (isset($_GET['id'])) {
     
@@ -78,28 +79,46 @@ $conn->close();
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo $current_lang; ?>" dir="<?php echo get_direction(); ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Post - Simple Blog</title>
+    <title><?php echo t('edit_post'); ?> - <?php echo t('site_title'); ?></title>
     
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <?php if (get_direction() == 'rtl'): ?>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <?php else: ?>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <?php endif; ?>
+    
+    <?php if (get_direction() == 'rtl'): ?>
+    <style>
+        body {
+            font-family: 'Tahoma', 'Arial', sans-serif;
+        }
+    </style>
+    <?php endif; ?>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="index.php">📝 Simple Blog</a>
+            <a class="navbar-brand" href="index.php">📝 <?php echo t('site_title'); ?></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.php">Home</a>
+                        <a class="nav-link" href="index.php"><?php echo t('home'); ?></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="create.php">New Post</a>
+                        <a class="nav-link" href="create.php"><?php echo t('new_post'); ?></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="?id=<?php echo $id; ?>&lang=<?php echo get_other_lang(); ?>">
+                            🌐 <?php echo get_other_lang_name(); ?>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -109,7 +128,7 @@ $conn->close();
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <h1 class="mb-4">Edit Post</h1>
+                <h1 class="mb-4"><?php echo t('edit_post'); ?></h1>
                 
                 <?php if (!empty($errors)): ?>
                     <div class="alert alert-danger">
@@ -128,7 +147,7 @@ $conn->close();
                             <input type="hidden" name="id" value="<?php echo $id; ?>">
                             
                             <div class="mb-3">
-                                <label for="title" class="form-label">Post Title</label>
+                                <label for="title" class="form-label"><?php echo t('post_title'); ?></label>
                                 <input type="text" 
                                        class="form-control" 
                                        id="title" 
@@ -137,9 +156,9 @@ $conn->close();
                             </div>
                             
                             <div class="mb-3">
-                                <label for="category_id" class="form-label">Category</label>
+                                <label for="category_id" class="form-label"><?php echo t('category'); ?></label>
                                 <select class="form-select" id="category_id" name="category_id">
-                                    <option value="">Select a category</option>
+                                    <option value=""><?php echo t('select_category'); ?></option>
                                     <?php
                                     $categories_result->data_seek(0);
                                     while($category = $categories_result->fetch_assoc()): 
@@ -153,7 +172,7 @@ $conn->close();
                             </div>
                             
                             <div class="mb-3">
-                                <label for="content" class="form-label">Post Content</label>
+                                <label for="content" class="form-label"><?php echo t('content'); ?></label>
                                 <textarea class="form-control" 
                                           id="content" 
                                           name="content" 
@@ -161,7 +180,7 @@ $conn->close();
                             </div>
                             
                             <div class="mb-3">
-                                <label for="author" class="form-label">Author Name</label>
+                                <label for="author" class="form-label"><?php echo t('author'); ?></label>
                                 <input type="text" 
                                        class="form-control" 
                                        id="author" 
@@ -170,8 +189,8 @@ $conn->close();
                             </div>
                             
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <a href="index.php" class="btn btn-secondary">Cancel</a>
-                                <button type="submit" class="btn btn-primary">Update Post</button>
+                                <a href="index.php" class="btn btn-secondary"><?php echo t('cancel'); ?></a>
+                                <button type="submit" class="btn btn-primary"><?php echo t('update'); ?></button>
                             </div>
                             
                         </form>
