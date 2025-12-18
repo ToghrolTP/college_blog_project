@@ -1,0 +1,144 @@
+body {
+    background-color: #282828;
+    color: #ebdbb2;
+}
+
+.navbar {
+    background-color: #1d2021 !important;
+}
+
+.navbar-brand,
+.nav-link {
+    color: #ebdbb2 !important;
+}
+
+.nav-link:hover {
+    color: #d79921 !important;
+}
+
+.nav-link.active {
+    color: #d65d0e !important;
+}
+
+.card {
+    background-color: #3c3836;
+    border: 1px solid #504945;
+    color: #ebdbb2;
+}
+
+.card-title {
+    color: #fabd2f;
+}
+
+.btn-primary {
+    background-color: #458588;
+    border-color: #458588;
+}
+
+.btn-primary:hover {
+    background-color: #076678;
+    border-color: #076678;
+}
+
+.btn-warning {
+    background-color: #d79921;
+    border-color: #d79921;
+    color: #282828;
+}
+
+.btn-warning:hover {
+    background-color: #b57614;
+    border-color: #b57614;
+}
+
+.btn-danger {
+    background-color: #cc241d;
+    border-color: #cc241d;
+}
+
+.btn-danger:hover {
+    background-color: #9d0006;
+    border-color: #9d0006;
+}
+
+.btn-secondary {
+    background-color: #504945;
+    border-color: #504945;
+}
+
+.btn-secondary:hover {
+    background-color: #3c3836;
+    border-color: #3c3836;
+}
+
+.badge {
+    background-color: #b16286 !important;
+}
+
+.text-muted {
+    color: #928374 !important;
+}
+
+.alert-success {
+    background-color: #98971a;
+    border-color: #79740e;
+    color: #282828;
+}
+
+.alert-info {
+    background-color: #458588;
+    border-color: #076678;
+    color: #ebdbb2;
+}
+
+.alert-danger {
+    background-color: #cc241d;
+    border-color: #9d0006;
+    color: #ebdbb2;
+}
+
+.form-control,
+.form-select {
+    background-color: #3c3836;
+    border-color: #504945;
+    color: #ebdbb2;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: #3c3836;
+    border-color: #d79921;
+    color: #ebdbb2;
+    box-shadow: 0 0 0 0.25rem rgba(215, 153, 33, 0.25);
+}
+
+.form-label {
+    color: #fabd2f;
+}
+
+.pagination .page-link {
+    background-color: #3c3836;
+    border-color: #504945;
+    color: #ebdbb2;
+}
+
+.pagination .page-link:hover {
+    background-color: #504945;
+    border-color: #665c54;
+    color: #d79921;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #458588;
+    border-color: #458588;
+}
+
+.pagination .page-item.disabled .page-link {
+    background-color: #282828;
+    border-color: #3c3836;
+    color: #665c54;
+}
+
+.btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
