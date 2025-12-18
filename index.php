@@ -6,18 +6,44 @@ $posts_per_page = 5;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $posts_per_page;
 
-$count_sql = "SELECT COUNT(*) as total FROM posts";
-$count_result = $conn->query($count_sql);
-$total_posts = $count_result->fetch_assoc()['total'];
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+
+if (!empty($search)) {
+    $search_param = "%" . $search . "%";
+    
+    $count_sql = "SELECT COUNT(*) as total FROM posts 
+                  WHERE title LIKE ? OR content LIKE ? OR author LIKE ?";
+    $count_stmt = $conn->prepare($count_sql);
+    $count_stmt->bind_param("sss", $search_param, $search_param, $search_param);
+    $count_stmt->execute();
+    $count_result = $count_stmt->get_result();
+    $total_posts = $count_result->fetch_assoc()['total'];
+    $count_stmt->close();
+    
+    $sql = "SELECT posts.*, categories.name as category_key 
+            FROM posts 
+            LEFT JOIN categories ON posts.category_id = categories.id 
+            WHERE posts.title LIKE ? OR posts.content LIKE ? OR posts.author LIKE ?
+            ORDER BY posts.created_at DESC 
+            LIMIT ? OFFSET ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssii", $search_param, $search_param, $search_param, $posts_per_page, $offset);
+} else {
+    $count_sql = "SELECT COUNT(*) as total FROM posts";
+    $count_result = $conn->query($count_sql);
+    $total_posts = $count_result->fetch_assoc()['total'];
+    
+    $sql = "SELECT posts.*, categories.name as category_key 
+            FROM posts 
+            LEFT JOIN categories ON posts.category_id = categories.id 
+            ORDER BY posts.created_at DESC 
+            LIMIT ? OFFSET ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $posts_per_page, $offset);
+}
+
 $total_pages = ceil($total_posts / $posts_per_page);
 
-$sql = "SELECT posts.*, categories.name as category_key 
-        FROM posts 
-        LEFT JOIN categories ON posts.category_id = categories.id 
-        ORDER BY posts.created_at DESC 
-        LIMIT ? OFFSET ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("ii", $posts_per_page, $offset);
 $stmt->execute();
 $result = $stmt->get_result();
 ?>
@@ -65,7 +91,7 @@ $result = $stmt->get_result();
                         <a class="nav-link" href="create.php"><?php echo t('new_post'); ?></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="?lang=<?php echo get_other_lang(); ?>&page=<?php echo $page; ?>">
+                        <a class="nav-link" href="?lang=<?php echo get_other_lang(); ?>&page=<?php echo $page; ?><?php echo !empty($search) ? '&search=' . urlencode($search) : ''; ?>">
                             🌐 <?php echo get_other_lang_name(); ?>
                         </a>
                     </li>
@@ -76,6 +102,32 @@ $result = $stmt->get_result();
 
     <div class="container mt-5">
         <h1 class="mb-4"><?php echo t('all_posts'); ?></h1>
+        
+        <div class="card mb-4">
+            <div class="card-body">
+                <form method="GET" action="index.php" class="row g-3">
+                    <div class="col-md-10">
+                        <input type="text" 
+                               class="form-control" 
+                               name="search" 
+                               placeholder="<?php echo t('search_placeholder'); ?>"
+                               value="<?php echo htmlspecialchars($search); ?>">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary w-100"><?php echo t('search'); ?></button>
+                    </div>
+                    <input type="hidden" name="lang" value="<?php echo $current_lang; ?>">
+                </form>
+            </div>
+        </div>
+        
+        <?php if (!empty($search)): ?>
+            <div class="alert alert-info">
+                <?php echo t('search_results'); ?>: <strong><?php echo htmlspecialchars($search); ?></strong> 
+                (<?php echo $total_posts; ?> <?php echo $total_posts == 1 ? t('post_found') : t('posts_found'); ?>)
+                <a href="index.php?lang=<?php echo $current_lang; ?>" class="btn btn-sm btn-secondary"><?php echo t('clear_search'); ?></a>
+            </div>
+        <?php endif; ?>
         
         <?php if (isset($_GET['success'])): ?>
             <?php if ($_GET['success'] == 'created'): ?>
@@ -125,17 +177,17 @@ $result = $stmt->get_result();
                     <ul class="pagination justify-content-center">
                         
                         <li class="page-item <?php echo ($page <= 1) ? 'disabled' : ''; ?>">
-                            <a class="page-link" href="?page=<?php echo $page - 1; ?>&lang=<?php echo $current_lang; ?>"><?php echo t('previous'); ?></a>
+                            <a class="page-link" href="?page=<?php echo $page - 1; ?>&lang=<?php echo $current_lang; ?><?php echo !empty($search) ? '&search=' . urlencode($search) : ''; ?>"><?php echo t('previous'); ?></a>
                         </li>
                         
                         <?php for ($i = 1; $i <= $total_pages; $i++): ?>
                             <li class="page-item <?php echo ($page == $i) ? 'active' : ''; ?>">
-                                <a class="page-link" href="?page=<?php echo $i; ?>&lang=<?php echo $current_lang; ?>"><?php echo $i; ?></a>
+                                <a class="page-link" href="?page=<?php echo $i; ?>&lang=<?php echo $current_lang; ?><?php echo !empty($search) ? '&search=' . urlencode($search) : ''; ?>"><?php echo $i; ?></a>
                             </li>
                         <?php endfor; ?>
                         
                         <li class="page-item <?php echo ($page >= $total_pages) ? 'disabled' : ''; ?>">
-                            <a class="page-link" href="?page=<?php echo $page + 1; ?>&lang=<?php echo $current_lang; ?>"><?php echo t('next'); ?></a>
+                            <a class="page-link" href="?page=<?php echo $page + 1; ?>&lang=<?php echo $current_lang; ?><?php echo !empty($search) ? '&search=' . urlencode($search) : ''; ?>"><?php echo t('next'); ?></a>
                         </li>
                         
                     </ul>
@@ -144,7 +196,11 @@ $result = $stmt->get_result();
             }
             
         } else {
-            echo '<div class="alert alert-info">' . t('no_posts') . '</div>';
+            if (!empty($search)) {
+                echo '<div class="alert alert-warning">' . t('no_search_results') . '</div>';
+            } else {
+                echo '<div class="alert alert-info">' . t('no_posts') . '</div>';
+            }
         }
         
         $stmt->close();

@@ -52,6 +52,13 @@ $translations = array(
         'cat_food' => 'Food',
         'cat_education' => 'Education',
         'cat_other' => 'Other',
+        'search' => 'Search',
+        'search_placeholder' => 'Search posts by title, content, or author...',
+        'search_results' => 'Search results for',
+        'post_found' => 'post found',
+        'posts_found' => 'posts found',
+        'clear_search' => 'Clear',
+        'no_search_results' => 'No posts found matching your search. Try different keywords.',
     ),
     'fa' => array(
         'site_title' => 'وبلاگ ساده',
@@ -91,6 +98,13 @@ $translations = array(
         'cat_food' => 'غذا',
         'cat_education' => 'آموزش',
         'cat_other' => 'سایر',
+        'search' => 'جستجو',
+        'search_placeholder' => 'جستجو در عنوان، محتوا یا نویسنده...',
+        'search_results' => 'نتایج جستجو برای',
+        'post_found' => 'پست یافت شد',
+        'posts_found' => 'پست یافت شد',
+        'clear_search' => 'پاک کردن',
+        'no_search_results' => 'هیچ پستی با جستجوی شما یافت نشد. کلمات دیگری را امتحان کنید.',
     )
 );
 
