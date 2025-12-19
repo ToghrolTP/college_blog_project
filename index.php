@@ -65,9 +65,6 @@ $result = $stmt->get_result();
     
     <?php if (get_direction() == 'rtl'): ?>
     <style>
-        body {
-            font-family: 'Tahoma', 'Arial', sans-serif;
-        }
         .badge {
             margin-left: 0;
             margin-right: 10px;

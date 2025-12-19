@@ -91,14 +91,6 @@ $conn->close();
     <?php endif; ?>
     
     <link href="style.css" rel="stylesheet">
-    
-    <?php if (get_direction() == 'rtl'): ?>
-    <style>
-        body {
-            font-family: 'Tahoma', 'Arial', sans-serif;
-        }
-    </style>
-    <?php endif; ?>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
