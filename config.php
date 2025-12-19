@@ -2,8 +2,8 @@
 // db confs
 $host = 'localhost';
 $dbname = 'simple_blog';
-$username = 'toghrol';
-$password = '6150062929';
+$username = 'root';
+$password = '09050840072';
 
 $conn = new mysqli($host, $username, $password, $dbname);
 

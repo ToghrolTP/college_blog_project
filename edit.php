@@ -116,7 +116,13 @@ $conn->close();
                         <a class="nav-link" href="create.php"><?php echo t('new_post'); ?></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="?id=<?php echo $id; ?>&lang=<?php echo get_other_lang(); ?>">
+                        <a class="nav-link" href="login.php">🔐 <?php echo t('login'); ?></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="register.php">✨ <?php echo t('register'); ?></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="?lang=<?php echo get_other_lang(); ?>">
                             🌐 <?php echo get_other_lang_name(); ?>
                         </a>
                     </li>
