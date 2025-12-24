@@ -59,6 +59,8 @@ $translations = array(
         'posts_found' => 'posts found',
         'clear_search' => 'Clear',
         'no_search_results' => 'No posts found matching your search. Try different keywords.',
+        'read_more' => 'Read More',
+        'back_to_home' => 'Back to Home',
     ),
     'fa' => array(
         'site_title' => 'وبلاگ ساده',
@@ -105,33 +107,39 @@ $translations = array(
         'posts_found' => 'پست یافت شد',
         'clear_search' => 'پاک کردن',
         'no_search_results' => 'هیچ پستی با جستجوی شما یافت نشد. کلمات دیگری را امتحان کنید.',
+        'read_more' => 'ادامه مطلب',
+        'back_to_home' => 'بازگشت به خانه',
     )
 );
 
-function t($key) {
+function t($key)
+{
     global $translations, $current_lang;
     return $translations[$current_lang][$key] ?? $key;
 }
 
-function get_category_name($category_key) {
+function get_category_name($category_key)
+{
     if (empty($category_key)) {
         return t('cat_other');
     }
     return t('cat_' . $category_key);
 }
 
-function get_direction() {
+function get_direction()
+{
     global $current_lang;
     return ($current_lang == 'fa') ? 'rtl' : 'ltr';
 }
 
-function get_other_lang() {
+function get_other_lang()
+{
     global $current_lang;
     return ($current_lang == 'en') ? 'fa' : 'en';
 }
 
-function get_other_lang_name() {
+function get_other_lang_name()
+{
     global $current_lang;
     return ($current_lang == 'en') ? 'فارسی' : 'English';
 }
-?>
