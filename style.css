@@ -1,6 +1,12 @@
+@import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css');
+
 body {
     background-color: #282828;
     color: #ebdbb2;
+}
+
+body {
+    font-family: "vazirmatn", Tahoma, Arial, sans-serif;
 }
 
 .navbar {
@@ -95,6 +101,12 @@ body {
     background-color: #cc241d;
     border-color: #9d0006;
     color: #ebdbb2;
+}
+
+.alert-warning {
+    background-color: #d79921;
+    border-color: #b57614;
+    color: #282828;
 }
 
 .form-control,

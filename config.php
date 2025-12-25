@@ -1,5 +1,5 @@
 <?php
-// db confs
+
 $host = 'localhost';
 $dbname = 'simple_blog';
 $username = 'root';

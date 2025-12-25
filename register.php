@@ -1,6 +1,12 @@
 <?php
+session_start();
 include 'lang.php';
 include 'config.php';
+
+$errors = $_SESSION['errors'] ?? [];
+$old = $_SESSION['old_input'] ?? [];
+
+unset($_SESSION['errors'], $_SESSION['old_input']);
 ?>
 
 <!DOCTYPE html>
@@ -17,25 +23,87 @@ include 'config.php';
     <?php endif; ?>
     
     <link href="style.css" rel="stylesheet">
-    
-    <?php if (get_direction() == 'rtl'): ?>
+
     <style>
+        :root {
+            --gruv-bg: #282828;
+            --gruv-bg-soft: #3c3836;
+            --gruv-fg: #ebdbb2;
+            --gruv-red: #cc241d;
+            --gruv-green: #98971a;
+            --gruv-yellow: #d79921;
+            --gruv-blue: #458588;
+            --gruv-aqua: #689d6a;
+            --gruv-gray: #a89984;
+        }
+
         body {
-            font-family: 'Tahoma', 'Arial', sans-serif;
+            background-color: var(--gruv-bg);
+            color: var(--gruv-fg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        .badge {
-            margin-left: 0;
-            margin-right: 10px;
+
+        h1, h2, h3, h4, h5, h6 { color: var(--gruv-yellow); font-weight: 600; }
+        a { color: var(--gruv-blue); text-decoration: none; }
+        a:hover { color: var(--gruv-aqua); }
+        .text-muted { color: var(--gruv-gray) !important; }
+
+        .navbar {
+            background-color: var(--gruv-bg-soft) !important;
+            border-bottom: 1px solid var(--gruv-bg);
         }
+        .navbar-brand { color: var(--gruv-fg) !important; font-weight: bold; }
+        .nav-link { color: var(--gruv-gray) !important; }
+        .nav-link.active, .nav-link:hover { color: var(--gruv-fg) !important; }
+
+        .card {
+            background-color: var(--gruv-bg-soft);
+            color: var(--gruv-fg);
+            border: none;
+            border-radius: 8px;
+        }
+
+        .form-control {
+            background-color: var(--gruv-bg);
+            border: 1px solid var(--gruv-gray);
+            color: var(--gruv-fg);
+        }
+        .form-control:focus {
+            background-color: var(--gruv-bg);
+            color: var(--gruv-fg);
+            border-color: var(--gruv-blue);
+            box-shadow: none;
+        }
+        ::placeholder { color: var(--gruv-gray) !important; }
+
+        .btn-success {
+            background-color: var(--gruv-green);
+            border-color: var(--gruv-green);
+            color: var(--gruv-bg);
+        }
+        .btn-success:hover {
+            background-color: var(--gruv-aqua);
+            border-color: var(--gruv-aqua);
+        }
+
+        .alert-danger {
+            background-color: var(--gruv-bg-soft);
+            border-color: var(--gruv-red);
+            color: var(--gruv-red);
+        }
+
+        <?php if (get_direction() == 'rtl'): ?>
+            body { font-family: 'Tahoma', 'Arial', sans-serif; }
+            .badge { margin-left: 0; margin-right: 10px; }
+        <?php endif; ?>
     </style>
-    <?php endif; ?>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="index.php">📝 <?php echo t('site_title'); ?></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
@@ -67,27 +135,54 @@ include 'config.php';
                 <div class="card shadow">
                     <div class="card-body p-5">
                         <h2 class="text-center mb-4">✨ <?php echo t('register'); ?></h2>
-                        
-                        <!-- Registration Form -->
+
+                        <?php if (!empty($errors)): ?>
+                            <div class="alert alert-danger">
+                                <ul class="mb-0">
+                                    <?php foreach ($errors as $error): ?>
+                                        <li><?php echo htmlspecialchars($error); ?></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        <?php endif; ?>
+
                         <form method="POST" action="register_process.php">
                             <div class="mb-3">
                                 <label for="username" class="form-label"><?php echo t('username'); ?></label>
-                                <input type="text" class="form-control" id="username" name="username" required autofocus>
+                                <input type="text" 
+                                       class="form-control <?php echo !empty($errors) ? 'is-invalid' : ''; ?>" 
+                                       id="username" 
+                                       name="username" 
+                                       value="<?php echo htmlspecialchars($old['username'] ?? ''); ?>" 
+                                       required autofocus>
                             </div>
                             
                             <div class="mb-3">
                                 <label for="email" class="form-label"><?php echo t('email'); ?></label>
-                                <input type="email" class="form-control" id="email" name="email" required>
+                                <input type="email" 
+                                       class="form-control <?php echo !empty($errors) ? 'is-invalid' : ''; ?>" 
+                                       id="email" 
+                                       name="email" 
+                                       value="<?php echo htmlspecialchars($old['email'] ?? ''); ?>" 
+                                       required>
                             </div>
                             
                             <div class="mb-3">
                                 <label for="password" class="form-label"><?php echo t('password'); ?></label>
-                                <input type="password" class="form-control" id="password" name="password" required>
+                                <input type="password" 
+                                       class="form-control" 
+                                       id="password" 
+                                       name="password" 
+                                       required>
                             </div>
                             
                             <div class="mb-4">
                                 <label for="password_confirm" class="form-label"><?php echo t('confirm_password'); ?></label>
-                                <input type="password" class="form-control" id="password_confirm" name="password_confirm" required>
+                                <input type="password" 
+                                       class="form-control" 
+                                       id="password_confirm" 
+                                       name="password_confirm" 
+                                       required>
                             </div>
                             
                             <div class="d-grid">

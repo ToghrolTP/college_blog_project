@@ -41,6 +41,7 @@ $translations = array(
         'by' => 'By',
         'previous' => 'Previous',
         'next' => 'Next',
+        'logout' => 'Logout',
         'no_posts' => 'No posts yet. Create your first post!',
         'delete_confirm' => 'Are you sure you want to delete this post?',
         'success_created' => 'Success! Your post has been created successfully.',
@@ -60,12 +61,24 @@ $translations = array(
         'cat_education' => 'Education',
         'cat_other' => 'Other',
         'search' => 'Search',
+        'username_required'     => 'Username is required',
+        'username_length'       => 'Username must be between 3 and 50 characters',
+        'valid_email_required'  => 'A valid email is required',
+        'password_required'     => 'Password is required',
+        'password_min_length'   => 'Password must be at least 6 characters',
+        'passwords_do_not_match'=> 'Passwords do not match',
+        'username_taken'        => 'This username is already taken',
+        'email_taken'           => 'This email is already registered',
+        'register_success'      => 'Registration successful! You can now log in.',
+        'register_failed'       => 'Registration failed. Please try again.',
         'search_placeholder' => 'Search posts by title, content, or author...',
         'search_results' => 'Search results for',
         'post_found' => 'post found',
         'posts_found' => 'posts found',
         'clear_search' => 'Clear',
         'no_search_results' => 'No posts found matching your search. Try different keywords.',
+        'read_more' => 'Read More',
+        'back_to_home' => 'Back to Home',
     ),
     'fa' => array(
         'site_title' => 'وبلاگ ساده',
@@ -80,6 +93,16 @@ $translations = array(
         'confirm_password' => 'تایید رمز عبور',
         'already_have_account' => 'قبلاً حساب کاربری ندارید؟',
         'all_posts' => 'همه پست‌ها',
+        'username_required' => 'نام کاربری الزامی است',
+        'username_length' => ' نام کاربری باید بین 3 تا 50 کاراکتر باشد',
+        'valid_email_required'=> 'ایمیل معتبر الزامی است',
+        'password_required'=> 'رمز عبور الزامی است',
+        'password_min_length'=> 'رمز عبور باید حداقل 6 کاراکتر باشد',
+        'passwords_do_not_match'=> 'رمزهای عبور مطابقت ندارند',
+        'username_taken' => 'این نام کاربری قبلاً گرفته شده است',
+        'email_taken' => 'این ایمیل قبلاً ثبت شده است',
+        'register_success' => 'ثبت نام موفقیت آمیز بود! شما اکنون می‌توانید وارد شوید.',
+        'register_failed'=> 'ثبت نام ناموفق بود. لطفاً دوباره تلاش کنید.',
         'create_post' => 'ایجاد پست جدید',
         'edit_post' => 'ویرایش پست',
         'post_title' => 'عنوان پست',
@@ -93,6 +116,7 @@ $translations = array(
         'edit' => 'ویرایش',
         'delete' => 'حذف',
         'by' => 'توسط',
+        'logout' => 'خروج',
         'previous' => 'قبلی',
         'next' => 'بعدی',
         'no_posts' => 'هنوز پستی وجود ندارد. اولین پست خود را ایجاد کنید!',
@@ -120,33 +144,39 @@ $translations = array(
         'posts_found' => 'پست یافت شد',
         'clear_search' => 'پاک کردن',
         'no_search_results' => 'هیچ پستی با جستجوی شما یافت نشد. کلمات دیگری را امتحان کنید.',
+        'read_more' => 'ادامه مطلب',
+        'back_to_home' => 'بازگشت به خانه',
     )
 );
 
-function t($key) {
+function t($key)
+{
     global $translations, $current_lang;
     return $translations[$current_lang][$key] ?? $key;
 }
 
-function get_category_name($category_key) {
+function get_category_name($category_key)
+{
     if (empty($category_key)) {
         return t('cat_other');
     }
     return t('cat_' . $category_key);
 }
 
-function get_direction() {
+function get_direction()
+{
     global $current_lang;
     return ($current_lang == 'fa') ? 'rtl' : 'ltr';
 }
 
-function get_other_lang() {
+function get_other_lang()
+{
     global $current_lang;
     return ($current_lang == 'en') ? 'fa' : 'en';
 }
 
-function get_other_lang_name() {
+function get_other_lang_name()
+{
     global $current_lang;
     return ($current_lang == 'en') ? 'فارسی' : 'English';
 }
-?>

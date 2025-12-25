@@ -1,25 +1,22 @@
 <?php
+session_start();
+include 'auth.php';
+require_admin();
+
 include 'config.php';
 
 if (isset($_GET['id'])) {
-    $id = $_GET['id'];
+    $id = (int)$_GET['id'];
     
-    $sql = "DELETE FROM posts WHERE id = ?";
-    
-    $stmt = $conn->prepare($sql);
+    $stmt = $conn->prepare("DELETE FROM posts WHERE id = ?");
     $stmt->bind_param("i", $id);
-    
-    if ($stmt->execute()) {
-        header("Location: index.php?success=deleted");
-        exit();
-    } else {
-        die("Error deleting post: " . $conn->error);
-    }
-    
+    $stmt->execute();
     $stmt->close();
-    $conn->close();
     
-} else {
-    die("No post ID provided!");
+    header("Location: index.php?success=deleted");
+    exit();
 }
+
+header("Location: index.php");
+exit();
 ?>
