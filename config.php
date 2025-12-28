@@ -2,8 +2,9 @@
 
 $host = 'localhost';
 $dbname = 'simple_blog';
-$username = 'root';
-$password = '09050840072';
+
+$username = "/* Database User */";
+$password = "/* Database Password */";
 
 $conn = new mysqli($host, $username, $password, $dbname);
 
