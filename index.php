@@ -158,9 +158,12 @@ $result = $stmt->get_result();
                     <li class="nav-item">
                         <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'index.php') ? 'active' : ''; ?>" href="index.php"><?php echo t('home'); ?></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="create.php"><?php echo t('new_post'); ?></a>
-                    </li>
+
+                    <?php if (is_admin()): ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="create.php"><?php echo t('new_post'); ?></a>
+                        </li>
+                    <?php endif; ?>
 
                     <?php if (is_logged_in()): ?>
                         <li class="nav-item dropdown">
@@ -268,9 +271,11 @@ $result = $stmt->get_result();
                             </a>
                             
                             <div>
-                                <a href="edit.php?id=<?php echo $post['id']; ?>" class="btn btn-link text-muted btn-sm p-0 me-2 text-decoration-none" style="font-size: 0.9em;">
-                                    <?php echo t('edit'); ?>
-                                </a>
+                                <?php if (is_admin()): ?>
+                                    <a href="edit.php?id=<?php echo $post['id']; ?>" class="btn btn-link text-muted btn-sm p-0 me-2 text-decoration-none" style="font-size: 0.9em;">
+                                        <?php echo t('edit'); ?>
+                                    </a>
+                                <?php endif; ?>
 
                                 <?php if (is_admin()): ?>
                                     <a href="delete.php?id=<?php echo $post['id']; ?>" 
