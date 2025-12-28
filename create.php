@@ -1,54 +1,28 @@
 <?php
+session_start();
+include 'auth.php';
+require_admin();
+
 include 'lang.php';
 include 'config.php';
 
-$categories_sql = "SELECT * FROM categories ORDER BY name ASC";
-$categories_result = $conn->query($categories_sql);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $title = trim($_POST['title'] ?? '');
+    $content = trim($_POST['content'] ?? '');
+    $author = trim($_POST['author'] ?? '');
+    $category_id = (int)($_POST['category_id'] ?? 0);
 
-$title = $content = $author = $category_id = "";
-$errors = array();
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
-    $title = trim($_POST['title']);
-    $content = trim($_POST['content']);
-    $author = trim($_POST['author']);
-    $category_id = $_POST['category_id'];
-    
-    if (empty($title)) {
-        $errors[] = t('title_required');
-    }
-    
-    if (empty($content)) {
-        $errors[] = t('content_required');
-    }
-    
-    if (empty($author)) {
-        $errors[] = t('author_required');
-    }
-    
-    if (empty($category_id)) {
-        $errors[] = t('category_required');
-    }
-    
-    if (empty($errors)) {
-        $sql = "INSERT INTO posts (title, content, author, category_id) VALUES (?, ?, ?, ?)";
-        
-        $stmt = $conn->prepare($sql);
+    if (!empty($title) && !empty($content) && !empty($author) && $category_id > 0) {
+        $stmt = $conn->prepare("INSERT INTO posts (title, content, author, category_id) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("sssi", $title, $content, $author, $category_id);
-        
-        if ($stmt->execute()) {
-            header("Location: index.php?success=created&lang=" . $current_lang);
-            exit();
-        } else {
-            $errors[] = "Error creating post: " . $conn->error;
-        }
-        
+        $stmt->execute();
         $stmt->close();
+        header("Location: index.php?success=created");
+        exit();
     }
 }
 
-$conn->close();
+$categories = $conn->query("SELECT id, name FROM categories ORDER BY name");
 ?>
 
 <!DOCTYPE html>
@@ -56,7 +30,7 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo t('create_post'); ?> - <?php echo t('site_title'); ?></title>
+    <title><?php echo t('new_post'); ?> - <?php echo t('site_title'); ?></title>
     
     <!-- Bootstrap CSS -->
     <?php if (get_direction() == 'rtl'): ?>
@@ -65,6 +39,7 @@ $conn->close();
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <?php endif; ?>
     
+<<<<<<< HEAD
     <!-- Gruvbox Minimal Theme -->
     <style>
         :root {
@@ -143,10 +118,35 @@ $conn->close();
         /* RTL Specifics */
         <?php if (get_direction() == 'rtl'): ?>
             .badge { margin-left: 0; margin-right: 10px; }
+=======
+    <style>
+        :root {
+            --gruv-bg: #282828;
+            --gruv-bg-soft: #3c3836;
+            --gruv-fg: #ebdbb2;
+            --gruv-yellow: #d79921;
+            --gruv-blue: #458588;
+            --gruv-aqua: #689d6a;
+            --gruv-gray: #a89984;
+            --gruv-green: #98971a;
+        }
+        body { background-color: var(--gruv-bg); color: var(--gruv-fg); font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        h1, h2 { color: var(--gruv-yellow); }
+        a { color: var(--gruv-blue); }
+        a:hover { color: var(--gruv-aqua); }
+        .card { background-color: var(--gruv-bg-soft); color: var(--gruv-fg); border: none; }
+        .form-control { background-color: var(--gruv-bg); border: 1px solid var(--gruv-gray); color: var(--gruv-fg); }
+        .form-control:focus { background-color: var(--gruv-bg); border-color: var(--gruv-blue); box-shadow: none; }
+        .btn-primary { background-color: var(--gruv-blue); border-color: var(--gruv-blue); }
+        .btn-primary:hover { background-color: var(--gruv-aqua); border-color: var(--gruv-aqua); }
+        <?php if (get_direction() == 'rtl'): ?>
+            body { font-family: 'Tahoma', 'Arial', sans-serif; }
+>>>>>>> complited
         <?php endif; ?>
     </style>
 </head>
 <body>
+<<<<<<< HEAD
     <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="index.php">📝 <?php echo t('site_title'); ?></a>
@@ -167,6 +167,13 @@ $conn->close();
                         </a>
                     </li>
                 </ul>
+=======
+    <nav class="navbar navbar-expand-lg" style="background-color: var(--gruv-bg-soft);">
+        <div class="container">
+            <a class="navbar-brand" href="index.php">📝 <?php echo t('site_title'); ?></a>
+            <div class="ms-auto">
+                <a href="index.php" class="btn btn-outline-light btn-sm">← <?php echo t('back_to_home'); ?></a>
+>>>>>>> complited
             </div>
         </div>
     </nav>
@@ -174,6 +181,7 @@ $conn->close();
     <div class="container mt-5 mb-5">
         <div class="row justify-content-center">
             <div class="col-md-8">
+<<<<<<< HEAD
                 <h1 class="mb-4 text-center"><?php echo t('create_post'); ?></h1>
                 
                 <?php if (!empty($errors)): ?>
@@ -240,13 +248,42 @@ $conn->close();
                                 <button type="submit" class="btn btn-primary px-4"><?php echo t('publish'); ?></button>
                             </div>
                             
+=======
+                <div class="card shadow">
+                    <div class="card-body p-5">
+                        <h2 class="text-center mb-4"><?php echo t('new_post'); ?></h2>
+                        <form method="POST">
+                            <div class="mb-3">
+                                <label class="form-label"><?php echo t('title'); ?></label>
+                                <input type="text" class="form-control" name="title" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label"><?php echo t('content'); ?></label>
+                                <textarea class="form-control" name="content" rows="10" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label"><?php echo t('author'); ?></label>
+                                <input type="text" class="form-control" name="author" required>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label"><?php echo t('category'); ?></label>
+                                <select class="form-select" name="category_id" required>
+                                    <option value="">-- <?php echo t('select_category'); ?> --</option>
+                                    <?php while ($cat = $categories->fetch_assoc()): ?>
+                                        <option value="<?php echo $cat['id']; ?>"><?php echo get_category_name($cat['name']); ?></option>
+                                    <?php endwhile; ?>
+                                </select>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg"><?php echo t('create_post'); ?></button>
+                            </div>
+>>>>>>> complited
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

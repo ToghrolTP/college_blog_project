@@ -2,7 +2,10 @@
 include 'lang.php';
 include 'config.php';
 
+<<<<<<< HEAD
 // 1. Check if an ID exists in the URL
+=======
+>>>>>>> complited
 if (!isset($_GET['id']) || empty($_GET['id'])) {
     header("Location: index.php");
     exit();
@@ -10,7 +13,10 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 
 $id = $_GET['id'];
 
+<<<<<<< HEAD
 // 2. Fetch the specific post
+=======
+>>>>>>> complited
 $sql = "SELECT posts.*, categories.name as category_key 
         FROM posts 
         LEFT JOIN categories ON posts.category_id = categories.id 
@@ -21,7 +27,10 @@ $stmt->bind_param("i", $id);
 $stmt->execute();
 $result = $stmt->get_result();
 
+<<<<<<< HEAD
 // 3. Check if post exists
+=======
+>>>>>>> complited
 if ($result->num_rows == 0) {
     die("Post not found!");
 }
@@ -40,17 +49,28 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($post['title']); ?> - <?php echo t('site_title'); ?></title>
 
+<<<<<<< HEAD
     <!-- Bootstrap CSS -->
+=======
+
+>>>>>>> complited
     <?php if (get_direction() == 'rtl'): ?>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
     <?php else: ?>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <?php endif; ?>
 
+<<<<<<< HEAD
     <!-- Gruvbox Minimal Theme -->
     <style>
         :root {
             /* Gruvbox Dark Palette */
+=======
+
+    <style>
+        :root {
+ 
+>>>>>>> complited
             --gruv-bg: #282828;
             --gruv-bg-soft: #3c3836;
             --gruv-fg: #ebdbb2;
@@ -70,7 +90,11 @@ $conn->close();
             line-height: 1.6;
         }
 
+<<<<<<< HEAD
         /* Typography & Links */
+=======
+
+>>>>>>> complited
         h1,
         h2,
         h3,
@@ -94,7 +118,10 @@ $conn->close();
             color: var(--gruv-gray) !important;
         }
 
+<<<<<<< HEAD
         /* Navbar */
+=======
+>>>>>>> complited
         .navbar {
             background-color: var(--gruv-bg-soft) !important;
             border-bottom: 1px solid var(--gruv-bg);
@@ -114,7 +141,11 @@ $conn->close();
             color: var(--gruv-fg) !important;
         }
 
+<<<<<<< HEAD
         /* Cards */
+=======
+
+>>>>>>> complited
         .card {
             background-color: var(--gruv-bg-soft);
             color: var(--gruv-fg);
@@ -123,7 +154,11 @@ $conn->close();
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
 
+<<<<<<< HEAD
         /* Buttons */
+=======
+
+>>>>>>> complited
         .btn-primary {
             background-color: var(--gruv-blue);
             border-color: var(--gruv-blue);
@@ -158,7 +193,11 @@ $conn->close();
             color: var(--gruv-bg);
         }
 
+<<<<<<< HEAD
         /* Badges & Elements */
+=======
+
+>>>>>>> complited
         .badge {
             font-weight: normal;
             font-size: 0.9rem;
@@ -175,6 +214,7 @@ $conn->close();
             opacity: 0.3;
         }
 
+<<<<<<< HEAD
         /* Post Content Specifics */
         .post-content {
             font-size: 1.1rem;
@@ -183,6 +223,16 @@ $conn->close();
         }
 
         /* RTL Specifics */
+=======
+
+        .post-content {
+            font-size: 1.1rem;
+            color: #fbf1c7;
+
+        }
+
+
+>>>>>>> complited
         <?php if (get_direction() == 'rtl'): ?>.badge {
             margin-left: 0;
             margin-right: 10px;
@@ -224,7 +274,11 @@ $conn->close();
                 <article class="card p-3">
                     <div class="card-body">
 
+<<<<<<< HEAD
                         <!-- Header -->
+=======
+
+>>>>>>> complited
                         <div class="mb-4">
                             <div class="d-flex justify-content-between align-items-start mb-2">
                                 <h1 class="display-5 mb-0" style="color: var(--gruv-yellow);"><?php echo htmlspecialchars($post['title']); ?></h1>
@@ -244,12 +298,19 @@ $conn->close();
 
                         <hr class="mb-4">
 
+<<<<<<< HEAD
                         <!-- Main Content -->
+=======
+
+>>>>>>> complited
                         <div class="post-content mb-5">
                             <?php echo nl2br(htmlspecialchars($post['content'])); ?>
                         </div>
 
+<<<<<<< HEAD
                         <!-- Footer / Actions -->
+=======
+>>>>>>> complited
                         <div class="mt-5 pt-4 border-top d-flex justify-content-between align-items-center" style="border-color: #504945 !important;">
                             <a href="index.php" class="btn btn-secondary px-4">
                                 &larr; <?php echo t('back_to_home'); ?>
