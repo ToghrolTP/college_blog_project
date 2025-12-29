@@ -28,8 +28,6 @@ INSERT INTO categories (name) VALUES
 ('food'),
 ('education'),
 ('other');
-<<<<<<< HEAD
-=======
 
 CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT,
@@ -42,4 +40,3 @@ CREATE TABLE users (
     UNIQUE (username),
     UNIQUE (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
->>>>>>> complited

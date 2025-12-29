@@ -66,10 +66,7 @@ $result = $stmt->get_result();
 
     <style>
         :root {
-<<<<<<< HEAD
             /* Gruvbox Dark Palette */
-=======
->>>>>>> complited
             --gruv-bg: #282828;
             --gruv-bg-soft: #3c3836;
             --gruv-fg: #ebdbb2;
@@ -88,19 +85,13 @@ $result = $stmt->get_result();
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-<<<<<<< HEAD
         /* Typography & Links */
-=======
->>>>>>> complited
         h1, h2, h3, h4, h5, h6 { color: var(--gruv-yellow); font-weight: 600; }
         a { color: var(--gruv-blue); text-decoration: none; }
         a:hover { color: var(--gruv-aqua); }
         .text-muted { color: var(--gruv-gray) !important; }
 
-<<<<<<< HEAD
         /* Navbar */
-=======
->>>>>>> complited
         .navbar {
             background-color: var(--gruv-bg-soft) !important;
             border-bottom: 1px solid var(--gruv-bg);
@@ -109,10 +100,7 @@ $result = $stmt->get_result();
         .nav-link { color: var(--gruv-gray) !important; }
         .nav-link.active, .nav-link:hover { color: var(--gruv-fg) !important; }
 
-<<<<<<< HEAD
         /* Cards */
-=======
->>>>>>> complited
         .card {
             background-color: var(--gruv-bg-soft);
             color: var(--gruv-fg);
@@ -121,10 +109,7 @@ $result = $stmt->get_result();
             margin-bottom: 2rem;
         }
 
-<<<<<<< HEAD
         /* Inputs */
-=======
->>>>>>> complited
         .form-control {
             background-color: var(--gruv-bg);
             border: 1px solid var(--gruv-gray);
@@ -138,10 +123,7 @@ $result = $stmt->get_result();
         }
         ::placeholder { color: var(--gruv-gray) !important; }
 
-<<<<<<< HEAD
         /* Buttons - Mapping Bootstrap classes to Gruvbox */
-=======
->>>>>>> complited
         .btn-primary { background-color: var(--gruv-blue); border-color: var(--gruv-blue); color: var(--gruv-bg); }
         .btn-primary:hover { background-color: var(--gruv-aqua); border-color: var(--gruv-aqua); color: var(--gruv-bg); }
         
@@ -154,34 +136,22 @@ $result = $stmt->get_result();
 
         .btn-secondary { background-color: var(--gruv-gray); border-color: var(--gruv-gray); color: var(--gruv-bg); }
 
-<<<<<<< HEAD
         /* Badges */
         .badge { font-weight: normal; font-size: 0.8em; padding: 0.5em 0.8em; }
         .bg-primary { background-color: var(--gruv-blue) !important; color: var(--gruv-bg); }
 
         /* Pagination */
-=======
-        .badge { font-weight: normal; font-size: 0.8em; padding: 0.5em 0.8em; }
-        .bg-primary { background-color: var(--gruv-blue) !important; color: var(--gruv-bg); }
-
->>>>>>> complited
         .page-link { background-color: var(--gruv-bg-soft); border-color: var(--gruv-bg); color: var(--gruv-fg); }
         .page-link:hover { background-color: var(--gruv-bg); border-color: var(--gruv-bg); color: var(--gruv-yellow); }
         .page-item.active .page-link { background-color: var(--gruv-yellow); border-color: var(--gruv-yellow); color: var(--gruv-bg); }
         .page-item.disabled .page-link { background-color: var(--gruv-bg-soft); border-color: var(--gruv-bg); color: var(--gruv-gray); }
 
-<<<<<<< HEAD
         /* Alerts */
-=======
->>>>>>> complited
         .alert-info { background-color: var(--gruv-bg-soft); border-color: var(--gruv-blue); color: var(--gruv-blue); }
         .alert-warning { background-color: var(--gruv-bg-soft); border-color: var(--gruv-yellow); color: var(--gruv-yellow); }
         .alert-success { background-color: var(--gruv-bg-soft); border-color: var(--gruv-green); color: var(--gruv-green); }
 
-<<<<<<< HEAD
         /* RTL Specifics */
-=======
->>>>>>> complited
         <?php if (get_direction() == 'rtl'): ?>
             .badge { margin-left: 0; margin-right: 10px; }
         <?php endif; ?>
@@ -239,10 +209,7 @@ $result = $stmt->get_result();
     </nav>
 
     <div class="container mt-5">
-<<<<<<< HEAD
         
-=======
->>>>>>> complited
         <div class="row align-items-center mb-4">
             <div class="col-md-6">
                  <h1 class="mb-0"><?php echo t('all_posts'); ?></h1>
@@ -306,10 +273,7 @@ $result = $stmt->get_result();
 
                         <p class="card-text">
                             <?php 
-<<<<<<< HEAD
                                 // Clean minimal excerpt
-=======
->>>>>>> complited
                                 $content = htmlspecialchars($post['content']);
                                 echo nl2br(substr($content, 0, 250)) . (strlen($content) > 250 ? '...' : ''); 
                             ?>
@@ -321,15 +285,6 @@ $result = $stmt->get_result();
                             </a>
                             
                             <div>
-<<<<<<< HEAD
-                                <a href="edit.php?id=<?php echo $post['id']; ?>" class="btn btn-link text-muted btn-sm p-0 me-2 text-decoration-none" style="font-size: 0.9em;">
-                                    <?php echo t('edit'); ?>
-                                </a>
-                                <a href="delete.php?id=<?php echo $post['id']; ?>" class="btn btn-link text-danger btn-sm p-0 text-decoration-none" style="font-size: 0.9em;"
-                                    onclick="return confirm('<?php echo t('delete_confirm'); ?>')">
-                                    <?php echo t('delete'); ?>
-                                </a>
-=======
                                 <?php if (is_admin()): ?>
                                     <a href="edit.php?id=<?php echo $post['id']; ?>" class="btn btn-link text-muted btn-sm p-0 me-2 text-decoration-none" style="font-size: 0.9em;">
                                         <?php echo t('edit'); ?>
@@ -344,7 +299,6 @@ $result = $stmt->get_result();
                                         <?php echo t('delete'); ?>
                                     </a>
                                 <?php endif; ?>
->>>>>>> complited
                             </div>
                         </div>
                     </div>
@@ -352,10 +306,7 @@ $result = $stmt->get_result();
             <?php
             }
 
-<<<<<<< HEAD
             // Pagination
-=======
->>>>>>> complited
             if ($total_pages > 1) {
             ?>
                 <nav aria-label="Page navigation" class="mt-5">
