@@ -3,8 +3,8 @@
 $host = 'localhost';
 $dbname = 'simple_blog';
 
-$username = "/* Database User */";
-$password = "/* Database Password */";
+$username = "toghrol";
+$password = "6150062929";
 
 $conn = new mysqli($host, $username, $password, $dbname);
 

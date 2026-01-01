@@ -161,7 +161,7 @@ $result = $stmt->get_result();
 <body>
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="index.php">📝 <?php echo t('site_title'); ?></a>
+            <a class="navbar-brand" href="index.php"><?php echo t('site_title'); ?></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
             </button>
@@ -180,7 +180,7 @@ $result = $stmt->get_result();
                     <?php if (is_logged_in()): ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                👤 <?php echo htmlspecialchars($_SESSION['user_username']); ?>
+                                <?php echo htmlspecialchars($_SESSION['user_username']); ?>
                                 <?php if (is_admin()): ?>
                                     <span class="badge bg-danger ms-1">Admin</span>
                                 <?php endif; ?>
@@ -191,16 +191,16 @@ $result = $stmt->get_result();
                         </li>
                     <?php else: ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="login.php">🔐 <?php echo t('login'); ?></a>
+                            <a class="nav-link" href="login.php"><?php echo t('login'); ?></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="register.php">✨ <?php echo t('register'); ?></a>
+                            <a class="nav-link" href="register.php"><?php echo t('register'); ?></a>
                         </li>
                     <?php endif; ?>
 
                     <li class="nav-item">
                         <a class="nav-link" href="?lang=<?php echo get_other_lang(); ?>&page=<?php echo $page; ?><?php echo !empty($search) ? '&search=' . urlencode($search) : ''; ?>">
-                            🌐 <?php echo get_other_lang_name(); ?>
+                            <?php echo get_other_lang_name(); ?>
                         </a>
                     </li>
                 </ul>

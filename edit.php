@@ -159,7 +159,7 @@ $categories = $conn->query("SELECT id, name FROM categories ORDER BY name");
 <body>
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="index.php">📝 <?php echo t(
+            <a class="navbar-brand" href="index.php"><?php echo t(
                 "site_title",
             ); ?></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -179,7 +179,7 @@ $categories = $conn->query("SELECT id, name FROM categories ORDER BY name");
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="?id=<?php echo $id; ?>&lang=<?php echo get_other_lang(); ?>">
-                            🌐 <?php echo get_other_lang_name(); ?>
+                            <?php echo get_other_lang_name(); ?>
                         </a>
                     </li>
                 </ul>

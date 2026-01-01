@@ -126,7 +126,7 @@ $conn->close();
 
     <nav class="navbar navbar-expand-lg">
         <div class="container">
-            <a class="navbar-brand" href="index.php">📝 <?php echo t('site_title'); ?></a>
+            <a class="navbar-brand" href="index.php"><?php echo t('site_title'); ?></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
             </button>
@@ -144,7 +144,7 @@ $conn->close();
 
                     <li class="nav-item">
                         <a class="nav-link" href="?id=<?php echo $id; ?>&lang=<?php echo get_other_lang(); ?>">
-                            🌐 <?php echo get_other_lang_name(); ?>
+                            <?php echo get_other_lang_name(); ?>
                         </a>
                     </li>
                 </ul>
